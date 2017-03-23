@@ -79,9 +79,9 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Welcome Everyone!
+                    Contact Me
                 </div>
-                <p>This is the beginning of the Laravel Journey.</p>
+                <p>I would love to Email me at gao.mengzhen94@gmail.com.</p>
             </div>
         </div>
     </body>
