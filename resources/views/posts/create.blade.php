@@ -5,6 +5,14 @@
 @section('stylesheets')
     {!! Html::style('css/parsley.css') !!}
     {!! Html::style('css/select2.min.css') !!}
+    <script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>
+        tinymce.init({ 
+            selector: 'textarea',
+            plugins: 'link code',
+            menubar: false
+         });
+    </script>
 @endsection
 
 @section('content')
@@ -32,7 +40,7 @@
                 </select>
                 
                 {{ Form::label('body', 'Post Body:')}}
-                {{ Form::textarea('body', null, array('class' => 'form-control', 'required' => '')) }}
+                {{ Form::textarea('body', null, array('class' => 'form-control')) }}
        
                 {{ Form::submit('Create Post', array('class' => 'btn btn-success btn-lg btn-block', 'style' => 'margin-top: 20px')) }}
             
