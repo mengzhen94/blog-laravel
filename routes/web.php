@@ -31,3 +31,7 @@ Route::get('comments/{id}/delete', ['uses' => 'CommentsController@delete', 'as' 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');
