@@ -4,6 +4,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            <img src="{{asset('/images/' . $post->image)}}" width="800" height="400" />
             <h1>{{ $post->title }}</h1>
             <p>{!! $post->body !!}</h1>
             <hr>
