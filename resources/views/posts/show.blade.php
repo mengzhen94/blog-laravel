@@ -6,7 +6,9 @@
 
 	<div class="row">
 		<div class="col-md-8">
-		 	<img src="{{asset('/images/' . $post->image)}}" width="800" height="400" />
+			@if($post->image)
+		 	<img src="{{'https://s3.ca-central-1.amazonaws.com/blog-image-mengzhen/images/' . $post->image}}" width="800" height="400" />
+			@endif
 			<h1>{{ $post->title }}</h1>
 			
 			<p class="lead">{!! $post->body !!}</p>

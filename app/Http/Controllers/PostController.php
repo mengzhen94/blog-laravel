@@ -10,6 +10,7 @@ use Session;
 use Purifier;
 use Image;
 use File;
+use Storage;
 
 class PostController extends Controller
 {
@@ -69,12 +70,21 @@ class PostController extends Controller
         //$post->body = $request->body;
 
         if ($request->hasFile('featured_img')) {
-          $image = $request->file('featured_img');
-          $filename = time() . '.' . $image->getClientOriginalExtension();
-          $location = public_path('images/' . $filename);
-          Image::make($image)->resize(800, 400)->save($location);
+            $image = $request->file('featured_img');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
 
-          $post->image = $filename;
+            //s3
+            $s3 = Storage::disk('s3');
+            $filePath = '/images/' . $filename;
+            $s3->put($filePath, file_get_contents($image), 'public');
+
+            //local
+            /*
+            $location = public_path('images/' . $filename);
+            Image::make($image)->resize(800, 400)->save($location);
+            */
+
+            $post->image = $filename;
         }
 
         $post->save();
@@ -152,13 +162,26 @@ class PostController extends Controller
         if ($request->hasFile('featured_img')) {
             $image = $request->file('featured_img');
             $filename = time() . '.' . $image->getClientOriginalExtension();
+
+            //s3
+            $s3 = Storage::disk('s3');
+            $filePath = '/images/' . $filename;
+            $s3->put($filePath, file_get_contents($image), 'public');
+
+            //local
+            /*
             $location = public_path('images/' . $filename);
             Image::make($image)->resize(800, 400)->save($location);
+            */
+
             $oldFilename = $post->image;
+            
             // Add the new one
             $post->image = $filename;
             // Delete the old one
-            File::delete(public_path('images/'. $oldFilename));
+            //File::delete(public_path('images/'. $oldFilename));
+            $oldpath = '/images/' . $oldFilename;
+            Storage::disk('s3')->delete($oldpath);
         }
 
         $post->save();
@@ -184,7 +207,11 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->tags()->detach();
-        File::delete(public_path('images/'. $post->image));
+
+        //File::delete(public_path('images/'. $post->image));
+        // Delete the old one
+        $oldpath = '/images/' . $post->image;
+        Storage::disk('s3')->delete($oldpath);
 
         $post->delete();
         Session::flash('success', 'This post was successfully deleted.');
