@@ -29,8 +29,11 @@
 
         </div>
 
-        <div class="col-md-3 col-md-offset-1">
-          <h2>Sidebar</h2>
+        <div class="col-md-4">
+          <h2>To See All Features!</h2>
+          <h2>Login</h2>
+          <p>Email:gao.mengzhen94@gmail.com<p>
+          <p>Password:1234567</p>
         </div>
       </div>
 
